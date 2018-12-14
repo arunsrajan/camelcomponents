@@ -1,6 +1,9 @@
 package org.singam.camel.component.queue;
 
+import java.util.Hashtable;
+import java.util.Map;
 import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.camel.Consumer;
 import org.apache.camel.Processor;
@@ -21,14 +24,36 @@ public class QueueEndpoint extends DefaultEndpoint {
     private String name;
     @UriParam(defaultValue = "10")
     private int option = 10;
-
-    public Queue queue = new java.util.concurrent.LinkedBlockingQueue<>();
+    
+    @UriParam
+    private long polldelay = 1000;
+    
+    static Queue queue;
+    
+    static Map<String,Queue> urlQueueMap = new Hashtable<>();
     
     public QueueEndpoint() {
     }
 
     public QueueEndpoint(String uri, QueueComponent component) {
         super(uri, component);
+        int index = uri.indexOf("?");
+        String urlpattern;
+        if(index!=-1) {
+        	urlpattern = uri.substring(0, index);
+        }
+        else {
+        	urlpattern = uri;
+        }
+        synchronized (this){
+        	if(urlQueueMap.get(urlpattern)!=null) {
+        		queue = urlQueueMap.get(urlpattern);
+        	}
+        	else {
+        		queue = new LinkedBlockingQueue<>();
+        		urlQueueMap.put(urlpattern, queue);
+        	}
+		}
     }
 
     public QueueEndpoint(String endpointUri) {
@@ -36,11 +61,11 @@ public class QueueEndpoint extends DefaultEndpoint {
     }
 
     public Producer createProducer() throws Exception {
-        return new QueueProducer(this);
+        return new QueueProducer(this,polldelay);
     }
 
     public Consumer createConsumer(Processor processor) throws Exception {
-        return new QueueConsumer(this, processor);
+        return new QueueConsumer(this, processor, polldelay);
     }
 
     public boolean isSingleton() {
@@ -68,4 +93,29 @@ public class QueueEndpoint extends DefaultEndpoint {
     public int getOption() {
         return option;
     }
+
+	public long getPolldelay() {
+		return polldelay;
+	}
+	
+	/**
+	 * The consumer delay in fetching the data from the queue
+	 * @param polldelay
+	 */
+	public void setPolldelay(long polldelay) {
+		this.polldelay = polldelay;
+	}
+
+	public Queue getQueue() {
+		return queue;
+	}
+	/**
+	 * The queue Type
+	 * @param queue
+	 */
+	public void setQueue(Queue queue) {
+		this.queue = queue;
+	}
+    
+    
 }

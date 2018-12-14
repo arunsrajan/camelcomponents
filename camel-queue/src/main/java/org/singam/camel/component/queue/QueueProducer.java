@@ -11,14 +11,16 @@ import org.slf4j.LoggerFactory;
 public class QueueProducer extends DefaultProducer {
     private static final Logger LOG = LoggerFactory.getLogger(QueueProducer.class);
     private QueueEndpoint endpoint;
-
-    public QueueProducer(QueueEndpoint endpoint) {
+    private long offerdelay;
+    public QueueProducer(QueueEndpoint endpoint,long offerdelay) {
         super(endpoint);
         this.endpoint = endpoint;
+        this.offerdelay = offerdelay;
     }
 
     public void process(Exchange exchange) throws Exception {
-        endpoint.queue.offer(exchange.getIn().getBody());    
+    		Thread.sleep(offerdelay);
+        	endpoint.queue.offer(exchange.getIn().getBody());    
     }
 
 }
