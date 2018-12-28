@@ -28,7 +28,7 @@ public class QueueEndpoint extends DefaultEndpoint {
     @UriParam
     private long polldelay = 1000;
     
-    static Queue queue;
+    Queue queue;
     
     static Map<String,Queue> urlQueueMap = new Hashtable<>();
     
