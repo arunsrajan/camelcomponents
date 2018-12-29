@@ -1,4 +1,4 @@
-package org.singam.camel.component.queue;
+package org.singam.camel.component.topic;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -7,11 +7,9 @@ import org.apache.camel.Endpoint;
 import org.apache.camel.impl.DefaultComponent;
 
 /**
- * Represents the component that manages {@link QueueEndpoint}.
+ * Represents the component that manages {@link TopicEndpoint}.
  */
-public class QueueComponent extends DefaultComponent {
-    
-	public static Map<String,QueueEndpoint> map = new Hashtable<String,QueueEndpoint>();
+public class TopicComponent extends DefaultComponent {
     protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
     	int index = uri.indexOf("?");
         String urlpattern;
@@ -21,9 +19,8 @@ public class QueueComponent extends DefaultComponent {
         else {
         	urlpattern = uri;
         }
-        QueueEndpoint endpoint = new QueueEndpoint(urlpattern, uri, this);
-        setProperties(endpoint, parameters);
-        return endpoint;
-       
+        TopicEndpoint endpoint = new TopicEndpoint(urlpattern, uri, this);
+	    setProperties(endpoint, parameters);
+	    return endpoint;
     }
 }
