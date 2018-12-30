@@ -24,9 +24,6 @@ public class FlumeComponentTest extends CamelTestSupport {
                 to("flume://endpoint?host=127.0.0.1&port=34343&protocol=thrift")
                   ;
                 from("flume://endpoint2?host=127.0.0.1&port=34344&protocol=avro").log("${body}");
-                /*from("timer:flume1?delay=3000").
-                to("flume://endpoint1?host=127.0.0.1&port=34344&protocol=avro")
-                  .to("mock:result");*/
             }
         };
     }
