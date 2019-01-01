@@ -22,6 +22,17 @@ public class SolrcloudOperations {
 	public static final String ALIAS = "Alias";
 	
 	//Consumer Operations
-	public static final String SOLRLISTCOLLECTIONS = "SolrListCollections";
+	public static final String COLLECTIONCREATE = "SolrCollectionCreate";
+	public static final String COLLECTIONREMOVE = "SolrCollectionRemove";
+	public static final String SHARDCREATE = "SolrShardCreate";
+	public static final String SHARDDELETE = "SolrShardDelete";
+	public static final String REPLICACREATE = "SolrReplicaCreate";
+	public static final String REPLICADELETE = "SolrReplicaDelete";
+	public static final String ALLCREATEREMOVE = "SolrCreateRemove";
 	
+	
+	public static final String COLLECTIONS = "collections";
+	public static final String ZNODESEPERATOR = "/";
+	public static final String LEADERELECT = "leader_elect";
+	public static final String ELECTION = "election";
 }

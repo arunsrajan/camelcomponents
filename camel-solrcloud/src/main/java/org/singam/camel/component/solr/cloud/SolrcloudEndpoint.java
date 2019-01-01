@@ -29,7 +29,13 @@ public class SolrcloudEndpoint extends DefaultEndpoint {
     private String context = "solr";
     
     @UriParam
-    private String solrOperation = SolrcloudOperations.SOLRLISTCOLLECTIONS;
+    private String solrOperation = SolrcloudOperations.COLLECTIONCREATE;
+    
+    @UriParam
+    protected String collectionName = null;
+    
+    @UriParam
+    protected String shardName = null;
     
     public SolrcloudEndpoint() {
     }
@@ -122,6 +128,22 @@ public class SolrcloudEndpoint extends DefaultEndpoint {
 	 */
 	public void setSolrOperation(String solrOperation) {
 		this.solrOperation = solrOperation;
+	}
+
+	public String getCollectionName() {
+		return collectionName;
+	}
+
+	public void setCollectionName(String collectionName) {
+		this.collectionName = collectionName;
+	}
+
+	public String getShardName() {
+		return shardName;
+	}
+
+	public void setShardName(String shardName) {
+		this.shardName = shardName;
 	}
     
     

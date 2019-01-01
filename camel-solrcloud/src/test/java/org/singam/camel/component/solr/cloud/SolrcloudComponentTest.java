@@ -10,7 +10,7 @@ public class SolrcloudComponentTest extends CamelTestSupport {
     @Test
     public void testSolrcloud() throws Exception {
         MockEndpoint mock = getMockEndpoint("mock:result");
-        mock.expectedMinimumMessageCount(1);       
+        mock.expectedMinimumMessageCount(100);       
         
         assertMockEndpointsSatisfied();
     }
@@ -35,8 +35,7 @@ public class SolrcloudComponentTest extends CamelTestSupport {
                 .to("solrcloud://test?host=localhost&port=8983&context=solr")
                 .convertBodyTo(String.class)
                 .to("mock:result");
-            	from("solrcloud://test?host=localhost&port=8983&context=solr&solrOperation=SolrListCollections")
-            	.log("${body}").to("mock:result");
+            	
             	from("timer:solrcloud?delay=5000")
                 .setHeader("SolrOperation", constant("SolrCreateShards"))
                 .setHeader("ShardName",constant("shard2"))
@@ -88,6 +87,14 @@ public class SolrcloudComponentTest extends CamelTestSupport {
                 .to("solrcloud://test?host=localhost&port=8983&context=solr")
                 .convertBodyTo(String.class)
                 .to("mock:result");
+            	from("solrcloud://test1?host=localhost&port=9983&context=solr&solrOperation=SolrReplicaDelete&collectionName=collection&shardName=shard1_0")
+            	.log("${body}").to("mock:result");
+            	from("solrcloud://test2?host=localhost&port=9983&context=solr&solrOperation=SolrShardDelete&collectionName=collection5")
+            	.log("${body}").to("mock:result");
+            	from("solrcloud://test3?host=localhost&port=9983&context=solr&solrOperation=SolrCollectionCreate")
+            	.log("${body}").to("mock:result");
+            	from("solrcloud://test4?host=localhost&port=9983&context=solr&solrOperation=SolrCollectionRemove")
+            	.log("${body}").to("mock:result");
             }
         };
     }
