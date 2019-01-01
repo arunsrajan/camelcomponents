@@ -95,6 +95,8 @@ public class SolrcloudComponentTest extends CamelTestSupport {
             	.log("${body}").to("mock:result");
             	from("solrcloud://test4?host=localhost&port=9983&context=solr&solrOperation=SolrCollectionRemove")
             	.log("${body}").to("mock:result");
+            	from("solrcloud://test5?host=localhost&port=9983&context=solr&solrOperation=SolrCollectionRemove")
+            	.log("${body}").to("mock:result");
             }
         };
     }

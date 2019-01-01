@@ -134,6 +134,10 @@ public class SolrcloudEndpoint extends DefaultEndpoint {
 		return collectionName;
 	}
 
+	/**
+	 * Solr Collection name for consumers
+	 * @param collectionName
+	 */
 	public void setCollectionName(String collectionName) {
 		this.collectionName = collectionName;
 	}
@@ -142,6 +146,10 @@ public class SolrcloudEndpoint extends DefaultEndpoint {
 		return shardName;
 	}
 
+	/**
+	 * Solr Shard Name for consumers
+	 * @param shardName
+	 */
 	public void setShardName(String shardName) {
 		this.shardName = shardName;
 	}
