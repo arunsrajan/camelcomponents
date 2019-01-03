@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features name="camelsingam" xmlns="http://karaf.apache.org/xmlns/features/v1.4.0">
+
+    <feature name="camel-solrcloud" description="Camel Solr Cloud Extensions" version="1.0.0">
+		<bundle>mvn:com.google.guava/guava/16.0</bundle>
+		<bundle>mvn:org.apache.zookeeper/zookeeper/3.4.10</bundle>
+		<bundle>mvn:org.apache.curator/curator-client/2.12.0</bundle>
+		<bundle>mvn:org.apache.curator/curator-framework/2.12.0</bundle>
+		<bundle>mvn:org.apache.curator/curator-recipes/2.12.0</bundle>
+		<bundle>wrap:mvn:org.apache.solr/solr-solrj/7.3.0</bundle>
+		<bundle>mvn:org.singam.camel.component/camel-solrcloud/1.0.0</bundle>
+    </feature>
+	
+	
+	<feature name="camel-hornetq" description="Camel HornetQ Extensions" version="1.0.0">
+		<bundle>mvn:org.jgroups/jgroups/3.3.4.Final</bundle>
+		<bundle>wrap:mvn:io.netty/netty-all/4.0.13.Final</bundle>
+		<bundle>mvn:org.singam.camel.component/camel-hornetq/1.0.0</bundle>
+	</feature>
+	
+</features>
