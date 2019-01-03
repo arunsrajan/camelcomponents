@@ -63,20 +63,32 @@
 		<dependency>
 			<groupId>org.apache.curator</groupId>
 			<artifactId>curator-framework</artifactId>
-			<version>4.0.1</version>
+			<version>2.12.0</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-client</artifactId>
+			<version>2.12.0</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.apache.curator</groupId>
 			<artifactId>curator-recipes</artifactId>
-			<version>4.0.1</version>
+			<version>2.12.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.curator</groupId>
 			<artifactId>curator-test</artifactId>
-			<version>4.0.1</version>
+			<version>2.12.0</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>19.0</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-test</artifactId>
@@ -139,6 +151,9 @@
 					<instructions>
 						<Bundle-SymbolicName>org.singam.camel.component.camel-solrcloud</Bundle-SymbolicName>
 						<Export-Service>org.apache.camel.spi.ComponentResolver;component=solrcloud</Export-Service>
+						<Import-Package>org.apache.zookeeper;version=3.4.10,*</Import-Package>
+						<Embed-Dependency>artifactId=guava,curator-framework;scope=compile|runtime,curator-client;scope=compile|runtime,curator-recipes;scope=compile|runtime</Embed-Dependency>
+						<Embed-Transitive>true</Embed-Transitive>
 					</instructions>
 				</configuration>
 			</plugin>
