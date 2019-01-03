@@ -51,6 +51,11 @@
 			<version>2.4.0.Final</version>
 		</dependency>
 		<dependency>
+			<groupId>org.hornetq</groupId>
+			<artifactId>hornetq-commons</artifactId>
+			<version>2.4.0.Final</version>
+		</dependency>
+		<dependency>
 			<groupId>org.jboss.spec.javax.jms</groupId>
 			<artifactId>jboss-jms-api_2.0_spec</artifactId>
 			<version>1.0.0.Final</version>
@@ -134,6 +139,7 @@
 					<instructions>
 						<Bundle-SymbolicName>org.singam.camel.component.camel-hornetq</Bundle-SymbolicName>
 						<Export-Service>org.apache.camel.spi.ComponentResolver;component=hornetq</Export-Service>
+						<Embed-Dependency>artifactId=hornetq-commons,hornetq-core-client</Embed-Dependency>
 					</instructions>
 				</configuration>
 			</plugin>
