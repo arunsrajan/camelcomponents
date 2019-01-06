@@ -1,7 +1,7 @@
 Camel Component Project
 =======================
 
-This project is a template of a Camel component.
+This project is a template of a Camel Memcached component.
 
 To build this project use
 

@@ -39,21 +39,36 @@ public class MemcachedProducer extends DefaultProducer {
         if(!(operationHeader.equals(MemcachedOperations.MEMCACHED_GET)||
         		operationHeader.equals(MemcachedOperations.MEMCACHED_SET)||
         		operationHeader.equals(MemcachedOperations.MEMCACHED_PREPEND)||
-        		operationHeader.equals(MemcachedOperations.MEMCACHED_APPEND))) {
+        		operationHeader.equals(MemcachedOperations.MEMCACHED_APPEND)||
+        		operationHeader.equals(MemcachedOperations.MEMCACHED_DELETE)||
+        		operationHeader.equals(MemcachedOperations.MEMCACHED_STATUS))) {
         	throw new UnsupportedOperationException();
         }
         else {
         	Message message = exchange.getIn();
         	String key = memcachedKey == null?(String) message.getHeader(MemcachedOperations.MEMCACHED_KEY):memcachedKey;
-        	Integer expires = Integer.parseInt((String) message.getHeader(MemcachedOperations.MEMCACHED_EXPIRES));
         	if(key == null) {
-        		throw new Exception("Key must be provided for Memcached Set Operation");
+        		throw new Exception("Key must be provided for Memcached Operation");
         	}
         	Object value = message.getBody();
         	if(operationHeader.equals(MemcachedOperations.MEMCACHED_GET)) {
         		message.setBody(memcachedClient.get(key));
         	}
+        	if(operationHeader.equals(MemcachedOperations.MEMCACHED_DELETE)) {
+        		message.setBody(memcachedClient.delete(key));
+        	}
+        	if(operationHeader.equals(MemcachedOperations.MEMCACHED_STATUS)) {
+        		message.setBody(memcachedClient.getStats());
+        	}
         	else if(operationHeader.equals(MemcachedOperations.MEMCACHED_SET)) {
+        		String exp = (String) message.getHeader(MemcachedOperations.MEMCACHED_EXPIRES);
+        		if(exp ==null) {
+        			throw new Exception("Expires must be provided for Memcached Set Operation");
+        		}
+        		else if(!exp.matches("\\d+")) {
+        			throw new Exception("Expires must be number");
+        		}
+        		Integer expires = Integer.parseInt(exp);
         		message.setBody(memcachedClient.set(key, expires, value));
         	}
         	else if(operationHeader.equals(MemcachedOperations.MEMCACHED_PREPEND)) {
@@ -68,11 +83,13 @@ public class MemcachedProducer extends DefaultProducer {
     @Override
     protected void doStart() throws Exception {
     	memcachedClient = new MemcachedClient(new InetSocketAddress(host, port));
+    	super.doStart();
     }
     @Override
     protected void doStop() throws Exception {
     	if(memcachedClient != null) {
     		memcachedClient.shutdown();
     	}
+    	super.doStop();
     }
 }
