@@ -34,4 +34,8 @@
 		<bundle>mvn:org.singam.camel.component/camel-queue/1.0.0</bundle>
 	</feature>
 	
+	<feature name="camel-memcached" description="Camel Memcached Extensions" version="1.0.0">
+		<bundle>wrap:mvn:net.spy/spymemcached/2.9.1</bundle>
+		<bundle>mvn:org.singam.camel.component/camel-memcached/1.0.0</bundle>
+	</feature>
 </features>
