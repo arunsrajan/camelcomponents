@@ -5,11 +5,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.singam.camel.component</groupId>
-	<artifactId>camel-solrcloud</artifactId>
+	<artifactId>camel-webcrawler</artifactId>
 	<packaging>bundle</packaging>
 	<version>1.0.0</version>
 
-	<name>Camel Solrcloud Component</name>
+	<name>Camel Webcrawler Component</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -35,64 +35,34 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-
+			<groupId>edu.uci.ics</groupId>
+			<artifactId>crawler4j</artifactId>
+			<version>4.4.0</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-slf4j-impl</artifactId>
-
-		</dependency>
-		<dependency>
-			<groupId>org.apache.solr</groupId>
-			<artifactId>solr-solrj</artifactId>
-			<version>7.3.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.curator</groupId>
-			<artifactId>curator-framework</artifactId>
-			<version>2.12.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>16.0</version>
-		</dependency>
-
-
-		<dependency>
-			<groupId>org.apache.curator</groupId>
-			<artifactId>curator-framework</artifactId>
-			<version>2.12.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.curator</groupId>
-			<artifactId>curator-recipes</artifactId>
-			<version>2.12.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.curator</groupId>
-			<artifactId>curator-test</artifactId>
-			<version>2.12.0</version>
-			<scope>test</scope>
-		</dependency>
-
-
 
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		
+		<dependency>
+	      <groupId>org.apache.logging.log4j</groupId>
+	      <artifactId>log4j-api</artifactId>
+	    </dependency>
+	    <dependency>
+	      <groupId>org.apache.logging.log4j</groupId>
+	      <artifactId>log4j-core</artifactId>
+	    </dependency>
+	    <dependency>
+	      <groupId>org.apache.logging.log4j</groupId>
+	      <artifactId>log4j-slf4j-impl</artifactId>
+	    </dependency>
 	</dependencies>
+
+		
+
 
 	<build>
 		<defaultGoal>install</defaultGoal>
@@ -147,8 +117,8 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<Bundle-SymbolicName>org.singam.camel.component.camel-solrcloud</Bundle-SymbolicName>
-						<Export-Service>org.apache.camel.spi.ComponentResolver;component=solrcloud</Export-Service>
+						<Bundle-SymbolicName>org.singam.camel.component.camel-webcrawler</Bundle-SymbolicName>
+						<Export-Service>org.apache.camel.spi.ComponentResolver;component=webcrawler</Export-Service>
 					</instructions>
 				</configuration>
 			</plugin>
@@ -175,5 +145,10 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	<repositories>
+	<repository>
+		<id>sleepycat</id>
+		<url>http://repo.spring.io/plugins-release</url>
+	</repository>
+	</repositories>
 </project>

@@ -35,12 +35,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>apt</artifactId>
-			<version>2.21.0</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.hornetq</groupId>
 			<artifactId>hornetq-core-client</artifactId>
 			<version>2.4.0.Final</version>
@@ -64,17 +58,14 @@
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-slf4j-impl</artifactId>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -143,13 +134,33 @@
 					</instructions>
 				</configuration>
 			</plugin>
-
+			<plugin>
+				<groupId>org.apache.karaf.tooling</groupId>
+				<artifactId>karaf-maven-plugin</artifactId>
+				<version>4.2.2</version>
+				<extensions>true</extensions>
+				<configuration>
+					<aggregateFeatures>false</aggregateFeatures>
+					<includeTransitiveDependency>true</includeTransitiveDependency>
+					<includeProjectArtifact>true</includeProjectArtifact>
+					<useVersionRange>true</useVersionRange>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-karaf-artifacts</id>
+						<goals>
+							<goal>features-generate-descriptor</goal>
+							<goal>kar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 	<repositories>
 		<repository>
-		<id>Jboss Repository</id>
-		<url>http://central.maven.org/maven2</url>
+			<id>Jboss Repository</id>
+			<url>http://central.maven.org/maven2</url>
 		</repository>
 	</repositories>
 </project>
