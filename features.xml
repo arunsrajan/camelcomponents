@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <features name="camelsingam" xmlns="http://karaf.apache.org/xmlns/features/v1.4.0">
 	
-	<feature name="camel-singamlogging" description="Camel Solrcloud Component" version="1.0.0">
+	<feature name="camel-singamlogging" description="Camel Logging" version="1.0.0">
 	<bundle>mvn:org.apache.logging.log4j/log4j-api/2.9.1</bundle>
         <bundle>mvn:org.apache.logging.log4j/log4j-core/2.9.1</bundle>
         <bundle>mvn:org.apache.logging.log4j/log4j-slf4j-impl/2.9.1</bundle>
