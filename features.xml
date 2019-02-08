@@ -105,7 +105,7 @@
 	
 	
 	
-	<feature name="camel-webcrawler" description="Camel Webcrawler Component" version="1.0.0">
+  <feature name="camel-webcrawler" description="Camel Webcrawler Component" version="1.0.0">
         <feature prerequisite="true" dependency="false">wrap</feature>
 	<feature prerequisite="true" dependency="false">camel-singamlogging</feature>
         <bundle>mvn:org.singam.camel.component/camel-webcrawler/1.0.0</bundle>
@@ -129,4 +129,19 @@
         <bundle>mvn:org.slf4j/jul-to-slf4j/1.7.25</bundle>
         <bundle>mvn:org.slf4j/jcl-over-slf4j/1.7.24</bundle>
     </feature>
+	
+    <feature name="camel-maven" description="Camel Maven Component" version="1.0.0">
+        <feature prerequisite="true" dependency="false">wrap</feature>
+	<feature prerequisite="true" dependency="false">camel-singamlogging</feature>
+        <bundle>mvn:org.singam.camel.component/camel-maven/1.0.0</bundle>
+        <bundle>mvn:org.apache.camel/camel-core/2.21.0</bundle>
+        <bundle>mvn:org.slf4j/slf4j-api/1.7.25</bundle>
+        <bundle>mvn:com.sun.xml.bind/jaxb-core/2.3.0</bundle>
+        <bundle>mvn:com.sun.xml.bind/jaxb-impl/2.3.0</bundle>
+        <bundle>wrap:mvn:org.apache.maven.shared/maven-invoker/2.1.1</bundle>
+        <bundle>wrap:mvn:org.codehaus.plexus/plexus-utils/3.0.8</bundle>
+        <bundle>wrap:mvn:org.codehaus.plexus/plexus-component-annotations/1.5.5</bundle>
+    </feature>	
+	
+	
 </features>
