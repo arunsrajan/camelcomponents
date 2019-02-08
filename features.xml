@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <features name="camelsingam" xmlns="http://karaf.apache.org/xmlns/features/v1.4.0">
-
+	
+	<feature name="camel-singamlogging" description="Camel Logging" version="1.0.0">
+	<bundle>mvn:org.apache.logging.log4j/log4j-api/2.9.1</bundle>
+        <bundle>mvn:org.apache.logging.log4j/log4j-core/2.9.1</bundle>
+        <bundle>mvn:org.apache.logging.log4j/log4j-slf4j-impl/2.9.1</bundle>
+	</feature>
+	
     <feature name="camel-solrcloud" description="Camel Solrcloud Component" version="1.0.0">
         <feature prerequisite="true" dependency="false">wrap</feature>
+	<feature prerequisite="true" dependency="false">camel-singamlogging</feature>
         <bundle>mvn:org.singam.camel.component/camel-solrcloud/1.0.0</bundle>
         <bundle>mvn:org.apache.camel/camel-core/2.21.0</bundle>
         <bundle>mvn:org.slf4j/slf4j-api/1.7.25</bundle>
         <bundle>mvn:com.sun.xml.bind/jaxb-core/2.3.0</bundle>
         <bundle>mvn:com.sun.xml.bind/jaxb-impl/2.3.0</bundle>
-        <bundle>mvn:org.apache.logging.log4j/log4j-api/2.9.1</bundle>
-        <bundle>mvn:org.apache.logging.log4j/log4j-core/2.9.1</bundle>
-        <bundle>mvn:org.apache.logging.log4j/log4j-slf4j-impl/2.9.1</bundle>
         <bundle>wrap:mvn:org.apache.solr/solr-solrj/7.3.0</bundle>
         <bundle>mvn:commons-io/commons-io/2.6</bundle>
         <bundle>mvn:org.apache.commons/commons-math3/3.6.1</bundle>
@@ -31,6 +35,7 @@
 	
 	<feature name="camel-hornetq" description="Camel Hornetq Component" version="1.0.0">
         <feature prerequisite="true" dependency="false">wrap</feature>
+	<feature prerequisite="true" dependency="false">camel-singamlogging</feature>
         <bundle>mvn:org.singam.camel.component/camel-hornetq/1.0.0</bundle>
         <bundle>mvn:org.apache.camel/camel-core/2.21.0</bundle>
         <bundle>mvn:org.slf4j/slf4j-api/1.7.25</bundle>
@@ -46,13 +51,11 @@
         <bundle>wrap:mvn:org.hornetq/hornetq-commons/2.4.0.Final</bundle>
         <bundle>mvn:org.jboss.logging/jboss-logging/3.1.0.GA</bundle>
         <bundle>mvn:org.jboss.spec.javax.jms/jboss-jms-api_2.0_spec/1.0.0.Final</bundle>
-        <bundle>mvn:org.apache.logging.log4j/log4j-api/2.9.1</bundle>
-        <bundle>mvn:org.apache.logging.log4j/log4j-core/2.9.1</bundle>
-        <bundle>mvn:org.apache.logging.log4j/log4j-slf4j-impl/2.9.1</bundle>
     </feature>
 	
 	<feature name="camel-flume" description="Camel Flume Component" version="1.0.0">
         <feature prerequisite="true" dependency="false">wrap</feature>
+	<feature prerequisite="true" dependency="false">camel-singamlogging</feature>
         <bundle>mvn:org.singam.camel.component/camel-flume/1.0.0</bundle>
         <bundle>mvn:org.apache.camel/camel-core/2.21.0</bundle>
         <bundle>mvn:org.slf4j/slf4j-api/1.7.25</bundle>
@@ -78,39 +81,33 @@
         <bundle>mvn:commons-logging/commons-logging/1.2</bundle>
         <bundle>mvn:commons-codec/commons-codec/1.11</bundle>
         <bundle>wrap:mvn:org.apache.httpcomponents/httpcore/4.4.9</bundle>
-        <bundle>mvn:org.apache.logging.log4j/log4j-api/2.9.1</bundle>
-        <bundle>mvn:org.apache.logging.log4j/log4j-core/2.9.1</bundle>
-        <bundle>mvn:org.apache.logging.log4j/log4j-slf4j-impl/2.9.1</bundle>
     </feature>
 	
 	<feature name="camel-queue" description="Camel Queue Component" version="1.0.0">
+	<feature prerequisite="true" dependency="false">camel-singamlogging</feature>
         <bundle>mvn:org.singam.camel.component/camel-queue/1.0.0</bundle>
         <bundle>mvn:org.apache.camel/camel-core/2.21.0</bundle>
         <bundle>mvn:org.slf4j/slf4j-api/1.7.25</bundle>
         <bundle>mvn:com.sun.xml.bind/jaxb-core/2.3.0</bundle>
         <bundle>mvn:com.sun.xml.bind/jaxb-impl/2.3.0</bundle>
-        <bundle>mvn:org.apache.logging.log4j/log4j-api/2.9.1</bundle>
-        <bundle>mvn:org.apache.logging.log4j/log4j-core/2.9.1</bundle>
-        <bundle>mvn:org.apache.logging.log4j/log4j-slf4j-impl/2.9.1</bundle>
     </feature>
 	
 	<feature name="camel-memcached" description="Camel Memcached Component" version="1.0.0">
         <feature prerequisite="true" dependency="false">wrap</feature>
+	<feature prerequisite="true" dependency="false">camel-singamlogging</feature>
         <bundle>mvn:org.singam.camel.component/camel-memcached/1.0.0</bundle>
         <bundle>mvn:org.apache.camel/camel-core/2.21.0</bundle>
         <bundle>mvn:org.slf4j/slf4j-api/1.7.25</bundle>
         <bundle>mvn:com.sun.xml.bind/jaxb-core/2.3.0</bundle>
         <bundle>mvn:com.sun.xml.bind/jaxb-impl/2.3.0</bundle>
         <bundle>wrap:mvn:net.spy/spymemcached/2.9.1</bundle>
-        <bundle>mvn:org.apache.logging.log4j/log4j-api/2.9.1</bundle>
-        <bundle>mvn:org.apache.logging.log4j/log4j-core/2.9.1</bundle>
-        <bundle>mvn:org.apache.logging.log4j/log4j-slf4j-impl/2.9.1</bundle>
     </feature>
 	
 	
 	
-	<feature name="camel-webcrawler" description="Camel Webcrawler Component" version="1.0.0">
+  <feature name="camel-webcrawler" description="Camel Webcrawler Component" version="1.0.0">
         <feature prerequisite="true" dependency="false">wrap</feature>
+	<feature prerequisite="true" dependency="false">camel-singamlogging</feature>
         <bundle>mvn:org.singam.camel.component/camel-webcrawler/1.0.0</bundle>
         <bundle>mvn:org.apache.camel/camel-core/2.21.0</bundle>
         <bundle>mvn:org.slf4j/slf4j-api/1.7.25</bundle>
@@ -131,8 +128,20 @@
         <bundle>mvn:commons-io/commons-io/2.6</bundle>
         <bundle>mvn:org.slf4j/jul-to-slf4j/1.7.25</bundle>
         <bundle>mvn:org.slf4j/jcl-over-slf4j/1.7.24</bundle>
-        <bundle>mvn:org.apache.logging.log4j/log4j-api/2.9.1</bundle>
-        <bundle>mvn:org.apache.logging.log4j/log4j-core/2.9.1</bundle>
-        <bundle>mvn:org.apache.logging.log4j/log4j-slf4j-impl/2.9.1</bundle>
     </feature>
+	
+    <feature name="camel-maven" description="Camel Maven Component" version="1.0.0">
+        <feature prerequisite="true" dependency="false">wrap</feature>
+	<feature prerequisite="true" dependency="false">camel-singamlogging</feature>
+        <bundle>mvn:org.singam.camel.component/camel-maven/1.0.0</bundle>
+        <bundle>mvn:org.apache.camel/camel-core/2.21.0</bundle>
+        <bundle>mvn:org.slf4j/slf4j-api/1.7.25</bundle>
+        <bundle>mvn:com.sun.xml.bind/jaxb-core/2.3.0</bundle>
+        <bundle>mvn:com.sun.xml.bind/jaxb-impl/2.3.0</bundle>
+        <bundle>wrap:mvn:org.apache.maven.shared/maven-invoker/2.1.1</bundle>
+        <bundle>wrap:mvn:org.codehaus.plexus/plexus-utils/3.0.8</bundle>
+        <bundle>wrap:mvn:org.codehaus.plexus/plexus-component-annotations/1.5.5</bundle>
+    </feature>	
+	
+	
 </features>
