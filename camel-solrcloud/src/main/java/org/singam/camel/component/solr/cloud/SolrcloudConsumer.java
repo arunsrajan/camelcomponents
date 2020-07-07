@@ -35,7 +35,10 @@ public class SolrcloudConsumer extends DefaultConsumer {
 		super.doStart();
 
 		try {
-			if (!(solrOperation.equals(SolrcloudOperations.SHARDCREATE)
+			if(solrOperation==null) {
+				throw new Exception("Solr Operation option is mandatory");	
+			}
+			else if (!(solrOperation.equals(SolrcloudOperations.SHARDCREATE)
 					|| solrOperation.equals(SolrcloudOperations.SHARDDELETE)
 					|| solrOperation.equals(SolrcloudOperations.COLLECTIONCREATE)
 					|| solrOperation.equals(SolrcloudOperations.COLLECTIONREMOVE)
