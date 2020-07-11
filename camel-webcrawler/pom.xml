@@ -148,7 +148,7 @@
 	<repositories>
 	<repository>
 		<id>sleepycat</id>
-		<url>http://repo.spring.io/plugins-release</url>
+		<url>https://repository.liferay.com/nexus/content/repositories/public/</url>
 	</repository>
 	</repositories>
 </project>
