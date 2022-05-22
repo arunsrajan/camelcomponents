@@ -18,7 +18,7 @@ public class PulsarComponentChunkingTest extends CamelTestSupport {
     @Test
     public void testChunkingFiles() throws Exception {
         MockEndpoint mock = getMockEndpoint("mock:result");
-        mock.expectedMinimumMessageCount(5);
+        mock.expectedMinimumMessageCount(4);
 
         // Trigger events to subscribers
         simulateEventTrigger();
