@@ -1,8 +1,11 @@
 package org.singam.camel.component.pulsar;
 
+import org.apache.camel.Endpoint;
 import org.apache.camel.Exchange;
+import org.apache.camel.PollingConsumer;
 import org.apache.camel.Processor;
 import org.apache.camel.support.DefaultConsumer;
+import org.apache.camel.support.ScheduledPollConsumer;
 import org.apache.pulsar.client.api.*;
 import org.apache.pulsar.client.impl.AutoClusterFailover;
 
@@ -12,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 import static java.util.Objects.nonNull;
 
-public class PulsarConsumer extends DefaultConsumer {
+public class PulsarConsumer extends ScheduledPollConsumer {
     private final PulsarEndpoint endpoint;
     private final EventBusHelper eventBusHelper;
 
@@ -106,42 +109,32 @@ public class PulsarConsumer extends DefaultConsumer {
             builder = builder.subscriptionName(endpoint.getSubscription());
         }
         consumer = builder.subscribe();
+        this.setDelay(4000l);
+        this.setUseFixedDelay(true);
     }
 
     @Override
-    protected void doStart() throws Exception {
-        super.doStart();
-
-        // start a single threaded pool to monitor events
-        executorService = endpoint.createExecutor();
-
-        // submit task to the thread pool
-        executorService.submit(() -> {
-            // subscribe to an event
-            eventBusHelper.subscribe(this::onEventListener);
-        });
-    }
-
-    @Override
-    protected void doStop() throws Exception {
-        super.doStop();
-
-        // shutdown the thread pool gracefully
-        getEndpoint().getCamelContext().getExecutorServiceManager().shutdownGraceful(executorService);
-    }
-
-    private void onEventListener(final Object event) {
+    protected int poll() throws Exception {
         final Exchange exchange = createExchange(false);
 
         try {
-            // Wait for a message
-            CompletableFuture<Message> future = consumer.receiveAsync();
-            // Acknowledge the message so that it can be deleted by the message broker
-            Message message = future.get();
-            exchange.getIn().setBody(message);
-            // send message to next processor in the route
-            getProcessor().process(exchange);
-            consumer.acknowledge(message);
+            if(nonNull(endpoint.getReceiveInBatches())&&endpoint.getReceiveInBatches()){
+                Messages batchReceive = consumer.batchReceive();
+                exchange.getIn().setBody(batchReceive);
+                // send message to next processor in the route
+                getProcessor().process(exchange);
+                consumer.acknowledge(batchReceive);
+            }
+            else {
+                // Wait for a message
+                CompletableFuture<Message> future = consumer.receiveAsync();
+                // Acknowledge the message so that it can be deleted by the message broker
+                Message message = future.get();
+                exchange.getIn().setBody(message);
+                // send message to next processor in the route
+                getProcessor().process(exchange);
+                consumer.acknowledge(message);
+            }
         } catch (Exception e) {
             exchange.setException(e);
         } finally {
@@ -150,5 +143,6 @@ public class PulsarConsumer extends DefaultConsumer {
             }
             releaseExchange(exchange, false);
         }
+        return 0;
     }
 }

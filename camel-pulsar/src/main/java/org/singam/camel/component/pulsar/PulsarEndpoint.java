@@ -36,6 +36,9 @@ public class PulsarEndpoint extends DefaultEndpoint {
     private List<String> secondaryhostport; //Common options both producer and consumer
 
     @UriParam
+    private Boolean receiveInBatches; //Consumer option
+
+    @UriParam
     private String subscription; //Consumer option
 
     @UriParam
@@ -631,6 +634,18 @@ public class PulsarEndpoint extends DefaultEndpoint {
      */
     public void setCompressionType(CompressionType compressionType) {
         this.compressionType = compressionType;
+    }
+
+    public Boolean getReceiveInBatches() {
+        return receiveInBatches;
+    }
+
+    /**
+     * receiveInBatches
+     * @param receiveInBatches
+     */
+    public void setReceiveInBatches(Boolean receiveInBatches) {
+        this.receiveInBatches = receiveInBatches;
     }
 
     public ExecutorService createExecutor() {
