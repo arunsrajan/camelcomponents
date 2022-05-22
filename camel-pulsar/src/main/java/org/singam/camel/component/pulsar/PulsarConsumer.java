@@ -3,11 +3,10 @@ package org.singam.camel.component.pulsar;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.support.DefaultConsumer;
-
 import org.apache.pulsar.client.api.*;
 import org.apache.pulsar.client.impl.AutoClusterFailover;
 
-import java.util.Collections;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -26,7 +25,7 @@ public class PulsarConsumer extends DefaultConsumer {
         super(endpoint, processor);
         this.endpoint = endpoint;
         eventBusHelper = EventBusHelper.getInstance();
-        AutoClusterFailoverBuilder autoClusterFailoverBuilder =AutoClusterFailover.builder()
+        AutoClusterFailoverBuilder autoClusterFailoverBuilder = AutoClusterFailover.builder()
                 .primary(endpoint.getPrimaryhostport());
         ServiceUrlProvider failover = autoClusterFailoverBuilder
                 .secondary(endpoint.getSecondaryhostport())
@@ -40,73 +39,73 @@ public class PulsarConsumer extends DefaultConsumer {
         ConsumerBuilder builder = client.newConsumer()
                 .topic(endpoint.getTopic());
 
-        if(nonNull(endpoint.getSubscriptionType())){
+        if (nonNull(endpoint.getSubscriptionType())) {
             builder = builder.subscriptionType(endpoint.getSubscriptionType());
         }
-        if(nonNull(endpoint.getReceiverQueueSize())){
+        if (nonNull(endpoint.getReceiverQueueSize())) {
             builder = builder.receiverQueueSize(endpoint.getReceiverQueueSize());
         }
-        if(nonNull(endpoint.getAcknowledgementsGroupTime())){
+        if (nonNull(endpoint.getAcknowledgementsGroupTime())) {
             builder = builder.acknowledgmentGroupTime(endpoint.getAcknowledgementsGroupTime(), TimeUnit.MICROSECONDS);
         }
-        if(nonNull(endpoint.getNegativeAckRedeliveryDelay())){
+        if (nonNull(endpoint.getNegativeAckRedeliveryDelay())) {
             builder = builder.negativeAckRedeliveryDelay(endpoint.getNegativeAckRedeliveryDelay(), TimeUnit.MICROSECONDS);
         }
-        if(nonNull(endpoint.getMaxTotalReceiverQueueSizeAcrossPartitions())){
+        if (nonNull(endpoint.getMaxTotalReceiverQueueSizeAcrossPartitions())) {
             builder = builder.maxTotalReceiverQueueSizeAcrossPartitions(endpoint.getMaxTotalReceiverQueueSizeAcrossPartitions());
         }
-        if(nonNull(endpoint.getAckTimeoutMillis())){
+        if (nonNull(endpoint.getAckTimeoutMillis())) {
             builder = builder.ackTimeout(endpoint.getAckTimeoutMillis(), TimeUnit.MILLISECONDS);
         }
-        if(nonNull(endpoint.getTickDurationMillis())){
+        if (nonNull(endpoint.getTickDurationMillis())) {
             builder = builder.ackTimeoutTickTime(endpoint.getTickDurationMillis(), TimeUnit.MILLISECONDS);
         }
-        if(nonNull(endpoint.getPriorityLevel())){
+        if (nonNull(endpoint.getPriorityLevel())) {
             builder = builder.priorityLevel(endpoint.getPriorityLevel());
         }
-        if(nonNull(endpoint.getCryptoFailureAction())){
+        if (nonNull(endpoint.getCryptoFailureAction())) {
             builder = builder.cryptoFailureAction(endpoint.getCryptoFailureAction());
         }
-        if(nonNull(endpoint.getReadCompacted())){
+        if (nonNull(endpoint.getReadCompacted())) {
             builder = builder.readCompacted(endpoint.getReadCompacted());
         }
-        if(nonNull(endpoint.getSubscriptionInitialPosition())){
+        if (nonNull(endpoint.getSubscriptionInitialPosition())) {
             builder = builder.subscriptionInitialPosition(endpoint.getSubscriptionInitialPosition());
         }
-        if(nonNull(endpoint.getPatternAutoDiscoveryPeriod())){
+        if (nonNull(endpoint.getPatternAutoDiscoveryPeriod())) {
             builder = builder.patternAutoDiscoveryPeriod(endpoint.getPatternAutoDiscoveryPeriod());
         }
-        if(nonNull(endpoint.getSubscriptionMode())){
+        if (nonNull(endpoint.getSubscriptionMode())) {
             builder = builder.subscriptionMode(endpoint.getSubscriptionMode());
         }
-        if(nonNull(endpoint.getDeadLetterPolicy())){
+        if (nonNull(endpoint.getDeadLetterPolicy())) {
             builder = builder.deadLetterPolicy(endpoint.getDeadLetterPolicy());
         }
-        if(nonNull(endpoint.getAutoUpdatePartitions())){
+        if (nonNull(endpoint.getAutoUpdatePartitions())) {
             builder = builder.autoUpdatePartitions(endpoint.getAutoUpdatePartitions());
         }
-        if(nonNull(endpoint.getReplicateSubscriptionState())){
+        if (nonNull(endpoint.getReplicateSubscriptionState())) {
             builder = builder.replicateSubscriptionState(endpoint.getReplicateSubscriptionState());
         }
-        if(nonNull(endpoint.getNegativeAckRedeliveryBackoff())){
+        if (nonNull(endpoint.getNegativeAckRedeliveryBackoff())) {
             builder = builder.negativeAckRedeliveryBackoff(endpoint.getNegativeAckRedeliveryBackoff());
         }
-        if(nonNull(endpoint.getAckTimeoutRedeliveryBackoff())){
+        if (nonNull(endpoint.getAckTimeoutRedeliveryBackoff())) {
             builder = builder.ackTimeoutRedeliveryBackoff(endpoint.getAckTimeoutRedeliveryBackoff());
         }
-        if(nonNull(endpoint.getAutoAckOldestChunkedMessageOnQueueFull())){
+        if (nonNull(endpoint.getAutoAckOldestChunkedMessageOnQueueFull())) {
             builder = builder.autoAckOldestChunkedMessageOnQueueFull(endpoint.getAutoAckOldestChunkedMessageOnQueueFull());
         }
-        if(nonNull(endpoint.getMaxPendingChunkedMessage())){
+        if (nonNull(endpoint.getMaxPendingChunkedMessage())) {
             builder = builder.maxPendingChunkedMessage(endpoint.getMaxPendingChunkedMessage());
         }
-        if(nonNull(endpoint.getExpireTimeOfIncompleteChunkedMessageMillis())){
+        if (nonNull(endpoint.getExpireTimeOfIncompleteChunkedMessageMillis())) {
             builder = builder.expireTimeOfIncompleteChunkedMessage(endpoint.getExpireTimeOfIncompleteChunkedMessageMillis(), TimeUnit.MILLISECONDS);
         }
-        if(nonNull(endpoint.getSubscription())) {
+        if (nonNull(endpoint.getSubscription())) {
             builder = builder.subscriptionName(endpoint.getSubscription());
         }
-          consumer =builder.subscribe();
+        consumer = builder.subscribe();
     }
 
     @Override
@@ -135,25 +134,14 @@ public class PulsarConsumer extends DefaultConsumer {
         final Exchange exchange = createExchange(false);
 
         try {
-
             // Wait for a message
-            Message msg = consumer.receive();
-
-            try {
-                // Do something with the message
-                System.out.println("Message received: " + new String(msg.getData()));
-
-                // Acknowledge the message so that it can be deleted by the message broker
-                consumer.acknowledge(msg);
-                exchange.getIn().setBody(new String(msg.getData()));
-                // send message to next processor in the route
-                getProcessor().process(exchange);
-            } catch (Exception e) {
-                // Message failed to process, redeliver later
-                consumer.negativeAcknowledge(msg);
-            }
-
-
+            CompletableFuture<Message> future = consumer.receiveAsync();
+            // Acknowledge the message so that it can be deleted by the message broker
+            Message message = future.get();
+            exchange.getIn().setBody(message);
+            // send message to next processor in the route
+            getProcessor().process(exchange);
+            consumer.acknowledge(message);
         } catch (Exception e) {
             exchange.setException(e);
         } finally {
